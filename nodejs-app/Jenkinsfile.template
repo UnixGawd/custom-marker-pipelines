@@ -3,6 +3,11 @@ pipeline {
   options { 
     buildDiscarder(logRotator(numToKeepStr: '2'))
   }
+  input {
+        message "Should we deploy?"
+        submitter "jasonennor"
+        submitterParameter "APPROVER"
+      }
   stages {
     stage('Test') {
       agent { label 'nodejs-app' }
@@ -20,7 +25,6 @@ pipeline {
       }
       steps {
          echo "TODO - build and push image"
-         //sh 'java -version'
       }
     }
     stage('Deploy') {
@@ -35,7 +39,7 @@ pipeline {
         message "Should we continue?"
       }
       steps {
-        echo "Continuing with deployment"
+        echo "Continuing with deployment - approved by ${APPROVER}"
       }
     }
   }
