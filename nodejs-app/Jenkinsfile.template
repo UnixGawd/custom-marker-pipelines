@@ -3,11 +3,6 @@ pipeline {
   options { 
     buildDiscarder(logRotator(numToKeepStr: '2'))
   }
-  input {
-        message "Should we deploy?"
-        submitter "jasonennor"
-        submitterParameter "APPROVER"
-      }
   stages {
     stage('Test') {
       agent { label 'nodejs-app' }
@@ -36,7 +31,9 @@ pipeline {
         timeout(time: 30, unit: 'SECONDS') 
       }
       input {
-        message "Should we continue?"
+        message "Should we deploy?"
+        submitter "jasonennor"
+        submitterParameter "APPROVER"
       }
       steps {
         echo "Continuing with deployment - approved by ${APPROVER}"
